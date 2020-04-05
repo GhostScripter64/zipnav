@@ -18,8 +18,8 @@ class ApiController extends AbstractController
    */
   public function index(Request $request)
   {
-      $region = "oddenn";//Debug only //what does Request object do?
-      //$region = $request->headers->get('X-SecondLife-Region');
+      //$region = "oddenn";//Debug only //what does Request object do?
+      $region = $request->headers->get('X-SecondLife-Region');
 
       $origin = $this->getDoctrine()->getRepository(Airport::class)->findOneBy(['region' => $region]);
       if ($region !== null) {
