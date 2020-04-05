@@ -18,14 +18,13 @@ class ApiController extends AbstractController
    */
   public function index(Request $request)
   {
-      //$region = "odden";//Debug only //what does Request object do?
-      $region = $request->headers->get('X-SecondLife-Region');
+      $region = "oddenn";//Debug only //what does Request object do?
+      //$region = $request->headers->get('X-SecondLife-Region');
 
       $origin = $this->getDoctrine()->getRepository(Airport::class)->findOneBy(['region' => $region]);
       if ($region !== null) {
           $flights = $this->getDoctrine()->getRepository(Flight::class)->findBy(['from' => $origin]);//Find all FROM this region
-
-          if ($flights !== false) {
+          if (count($flights)) {
               $dest = [];
               foreach ($flights as $flight) {
                   $dest = array_merge($dest, [$this->getDoctrine()->getRepository(Airport::class)->findOneBy(["id" => $flight->getTo()])]);
