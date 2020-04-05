@@ -1,0 +1,11 @@
+#lsb_release -a
+#Ubuntu 19.10
+
+apache2 -v
+#Apache 2.4.41
+
+mysql -v
+#Mysql 8.0.17
+
+php -v
+#php ?

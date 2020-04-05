@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Airport List{% endblock %}
+
+{% block body %}
+    {% if airports %}
+      <table id="airports" class="table table-striped">
+          </tbody>
+              <thead>
+                  <tr>
+                      <th>Name</th>
+                      <th>Region</th>
+                      <th>Actions</th>
+                  </tr>
+              </thead>
+          <tbody>
+              {% for airport in airports %}
+              <tr>
+                  <td>{{ airport.name }}</td>
+                  <td>{{ airport.region }}</td>
+                  <td>
+                      <a href="/airport/edit/{{ airport.id }}" class="btn btn-light">Edit</a>
+                      <a href="#" class="btn btn-danger delete-article" data-id="{{ airport.id }}">Delete</a>
+                  </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+    {% else %}
+        <p>No Airports to Display</p>
+    {% endif %}
+{% endblock %}

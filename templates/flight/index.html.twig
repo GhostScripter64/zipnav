@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Flights{% endblock %}
+
+{% block body %}
+    {% if flights %}
+    <table id="flights" class="table table-striped">
+        </tbody>
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        <tbody>
+          {% for flight in flights %}
+          <tr>
+              <td>{{ flight.from }}</td>
+              <td>{{ flight.to }}</td>
+              <td>
+                  <a href="/flight/{{flight.id}}" class="btn btn-dark">Show</a>
+                  <a href="/flight/edit/{{flight.id}}" class="btn btn-light">Edit</a>
+                  <form method="post" action="{{ path('flight_delete', {'id': flight.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" style="display: inline;">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ flight.id) }}">
+                      <button class="btn btn-danger">Delete</button>
+                  </form>
+              </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No Flights to Display</p>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+  <script src="/js/main.js"></script>
+{% endblock %}
