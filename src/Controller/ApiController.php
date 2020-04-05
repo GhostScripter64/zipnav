@@ -18,8 +18,8 @@ class ApiController extends AbstractController
    */
   public function index(Request $request)
   {
-      //$region = "oddenn";//Debug only //what does Request object do?
-      $region = $request->headers->get('X-SecondLife-Region');
+      $region = "odden";//Debug only //what does Request object do?
+      //$region = $request->headers->get('X-SecondLife-Region');
 
       $origin = $this->getDoctrine()->getRepository(Airport::class)->findOneBy(['region' => $region]);
       if ($region !== null) {
@@ -29,7 +29,7 @@ class ApiController extends AbstractController
               foreach ($flights as $flight) {
                   $dest = array_merge($dest, [$this->getDoctrine()->getRepository(Airport::class)->findOneBy(["id" => $flight->getTo()])]);
               }
-              return new Response(json_encode(array("destinations" => $dest)));
+              return new Response(json_encode(array("destinations" => implode(',', $dest))));
 
           } else {
               return new Response(json_encode(array("error" => "no flights available from this airport")));
