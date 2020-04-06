@@ -37,7 +37,7 @@ class ApiController extends AbstractController
           }
 
       } else{
-          return new Response(json_encode(array("error" => "departure airport is unknown / unable to get destinations")));
+          return new Response(json_encode(array("error" => "departure airport is unknown | unable to get destinations")));
       }
   }
 
@@ -66,7 +66,7 @@ class ApiController extends AbstractController
               return new Response(json_encode(array("error" => "destination airport not found")));
           }
       } else {
-          return new Response(json_encode(array("error" => "departure airport is unknown / unable to get route")));
+          return new Response(json_encode(array("error" => "departure airport is unknown | unable to get route")));
       }
   }
 }
