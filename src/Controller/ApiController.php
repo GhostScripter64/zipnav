@@ -19,8 +19,7 @@ class ApiController extends AbstractController
   public function index(Request $request)
   {
       //$region = "Odden";//Debug only //what does Request object do?
-      //$region = $request->headers->get('X-SecondLife-Region');
-      $hdr = array_keys(apache_request_headers());
+      $region = $request->headers->get('X-SecondLife-Region');
 
       $departure = $this->getDoctrine()->getRepository(Airport::class)->findOneBy(['region' => $region]);
 
@@ -38,8 +37,7 @@ class ApiController extends AbstractController
           }
 
       } else{
-          //return new Response(json_encode(array("error" => "departure airport is unknown | unable to get destinations")));
-          return new Response(json_encode(array("header" =>  implode(',', $hdr))));
+          return new Response(json_encode(array("error" => "departure airport is unknown | unable to get destinations")));
       }
   }
 
@@ -49,8 +47,7 @@ class ApiController extends AbstractController
   public function getFlight(Request $request, string $to)
   {
       //$region = "odden";//Debug only //what does Request object do?
-      //$region = $request->headers->get('X-SecondLife-Region');
-      $hdr = apache_request_headers();
+      $region = $request->headers->get('X-SecondLife-Region');
 
       $from = $this->getDoctrine()->getRepository(Airport::class)->findOneBy(['region' => $region]);
       $response = gettype($from);
