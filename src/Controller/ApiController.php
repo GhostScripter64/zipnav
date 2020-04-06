@@ -18,12 +18,13 @@ class ApiController extends AbstractController
    */
   public function index(Request $request)
   {
-      $region = "odden";//Debug only //what does Request object do?
-      //$region = $request->headers->get('X-SecondLife-Region');
+      //$region = "Odden";//Debug only //what does Request object do?
+      $region = $request->headers->get('X-SecondLife-Region');
 
-      $origin = $this->getDoctrine()->getRepository(Airport::class)->findOneBy(['region' => $region]);
-      if ($region !== null) {
-          $flights = $this->getDoctrine()->getRepository(Flight::class)->findBy(['from' => $origin]);//Find all FROM this region
+      $departure = $this->getDoctrine()->getRepository(Airport::class)->findOneBy(['region' => $region]);
+
+      if ($departure !== null) {
+          $flights = $this->getDoctrine()->getRepository(Flight::class)->findBy(['from' => $departure]);//Find all FROM this region
           if (count($flights)) {
               $dest = [];
               foreach ($flights as $flight) {
@@ -45,25 +46,28 @@ class ApiController extends AbstractController
    */
   public function getFlight(Request $request, string $to)
   {
-      //$from = "odden";//Debug only //what does Request object do?
-      $from = $request->headers->get('X-SecondLife-Region');
+      //$region = "odden";//Debug only //what does Request object do?
+      $region = $request->headers->get('X-SecondLife-Region');
 
-      $from = $this->getDoctrine()->getRepository(Airport::class)->findOneBy(['region' => $from]);
+      $from = $this->getDoctrine()->getRepository(Airport::class)->findOneBy(['region' => $region]);
+      $response = gettype($from);
       if ($from !== null) {
-        $to = $this->getDoctrine()->getRepository(Airport::class)->findOneBy(['name' => $to]);
+          $flights = $this->getDoctrine()->getRepository(Flight::class)->findBy(['from' => $from]);//Find all FROM this region
+          $to = $this->getDoctrine()->getRepository(Airport::class)->findOneBy(['name' => $to]);
 
-        if ($to !== false) {
-            $flight = $this->getDoctrine()->getRepository(Flight::class)->findOneBy([
-              'from' => $from,
-              'to' => $to
-            ]);
-            return new Response($flight->getJson());
+          if ($to !== false) {
+              $flight = $this->getDoctrine()->getRepository(Flight::class)->findOneBy([
+                'from' => $from,
+                'to' => $to
+              ]);
+              return new Response($flight->getJson());
 
-        } else {
-            return new Response(json_encode(array("error" => "destination airport not found")));
-        }
-      } else{
-        return new Response(json_encode(array("error" => "departure airport is unknown")));
+          } else {
+              return new Response(json_encode(array("error" => "destination airport not found")));
+          }
+      } else {
+          return new Response(json_encode(array("types" => $response)));
+          //return new Response(json_encode(array("error" => "departure airport is unknown")));
       }
   }
 }
