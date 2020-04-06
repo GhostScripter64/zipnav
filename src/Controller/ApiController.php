@@ -66,8 +66,7 @@ class ApiController extends AbstractController
               return new Response(json_encode(array("error" => "destination airport not found")));
           }
       } else {
-          return new Response(json_encode(array("types" => $response)));
-          //return new Response(json_encode(array("error" => "departure airport is unknown")));
+          return new Response(json_encode(array("error" => "departure airport is unknown")));
       }
   }
 }
