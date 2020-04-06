@@ -20,7 +20,7 @@ class ApiController extends AbstractController
   {
       //$region = "Odden";//Debug only //what does Request object do?
       //$region = $request->headers->get('X-SecondLife-Region');
-      $hdr = get_headers();
+      $hdr = apache_request_headers();
 
       $departure = $this->getDoctrine()->getRepository(Airport::class)->findOneBy(['region' => $region]);
 
@@ -50,7 +50,7 @@ class ApiController extends AbstractController
   {
       //$region = "odden";//Debug only //what does Request object do?
       //$region = $request->headers->get('X-SecondLife-Region');
-      $hdr = get_headers();
+      $hdr = apache_request_headers();
 
       $from = $this->getDoctrine()->getRepository(Airport::class)->findOneBy(['region' => $region]);
       $response = gettype($from);
