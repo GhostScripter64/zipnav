@@ -37,7 +37,7 @@ class ApiController extends AbstractController
           }
 
       } else{
-          return new Response(json_encode(array("error" => "departure airport is unknown | unable to get destinations")));
+          return new Response(json_encode(array("error" => "departure airport is unknown | unable to get destinations for " . $region)));
       }
   }
 
